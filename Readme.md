@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Михаил Белов](https://up.htmlacademy.ru/javascript/18/user/914819).
-* Наставник: `Неизвестно`.
+* Наставник: [Роман Нуйсков](https://htmlacademy.ru/profile/id1077815).
 
 ---
 
