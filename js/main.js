@@ -16,28 +16,24 @@ var generateRandomNumberInRange = function (rangeMin, rangeMax) {
   return Math.floor(Math.random() * (rangeMax - rangeMin + 1)) + rangeMin;
 };
 
-var getRandomElement = function (arr) {
+var getRandomElementFromArray = function (arr) {
   return arr[generateRandomNumberInRange(0, arr.length - 1)];
 };
 
-var getRandomArray = function (arr) {
-  var arrTemp = [];
-  var maxLength = generateRandomNumberInRange(1, arr.length - 1);
-
-  for (var i = 0; i < maxLength; i++) {
-    arrTemp.push(getRandomElement(arr));
-  }
-
-  return arrTemp;
+var getListRandomValues = function (values) {
+  return values.filter(function () {
+    return generateRandomNumberInRange(0, 1);
+  });
 };
 
-var generateCards = function () {
-  var cards = [];
+var generateOffersList = function (arrTypesOfHousing, arrCheckTimes,
+    arrFeaturesHousing, arrPhotosHouse) {
+  var offersList = [];
 
   for (var i = 1; i < 9; i++) {
     var locationX = generateRandomNumberInRange(0, 1200);
     var locationY = generateRandomNumberInRange(130, 630);
-    cards.push({
+    offersList.push({
       author: {
         avatar: 'img/avatars/user0' + i + '.png'
       },
@@ -46,14 +42,14 @@ var generateCards = function () {
         title: 'Заголовок предложения №' + i,
         address: locationX + ', ' + locationY,
         price: generateRandomNumberInRange(0, 1000),
-        type: getRandomElement(TYPES_OF_HOUSING),
+        type: getRandomElementFromArray(arrTypesOfHousing),
         rooms: generateRandomNumberInRange(1, 10),
         guests: generateRandomNumberInRange(0, 5),
-        checkin: getRandomElement(CHECK_TIMES),
-        checkout: getRandomElement(CHECK_TIMES),
-        features: getRandomArray(FEATURES_HOUSING),
+        checkin: getRandomElementFromArray(arrCheckTimes),
+        checkout: getRandomElementFromArray(arrCheckTimes),
+        features: getListRandomValues(arrFeaturesHousing),
         description: 'Красивая хата №' + i,
-        photos: getRandomArray(PHOTOS_HOUSE)
+        photos: getListRandomValues(arrPhotosHouse)
       },
 
       location: {
@@ -63,10 +59,8 @@ var generateCards = function () {
     });
   }
 
-  return cards;
+  return offersList;
 };
-
-var cards = generateCards();
 
 var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
@@ -78,9 +72,12 @@ var renderPin = function (pin) {
   return pinElement;
 };
 
+var offersList = generateOffersList(TYPES_OF_HOUSING, CHECK_TIMES, FEATURES_HOUSING,
+    PHOTOS_HOUSE);
+
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < cards.length; i++) {
-  fragment.appendChild(renderPin(cards[i]));
+for (var i = 0; i < offersList.length; i++) {
+  fragment.appendChild(renderPin(offersList[i]));
 }
 
 var mapPins = document.querySelector('.map__pins');
