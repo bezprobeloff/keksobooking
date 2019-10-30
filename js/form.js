@@ -18,12 +18,23 @@
     enabledStateElements(adFormChildElementsList);
     enabledStateElements(mapfiltersFormChildElementsList);
 
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.offersList.length; i++) {
-      fragment.appendChild(window.pin.renderPin(window.data.offersList[i]));
-    }
-    window.pin.mapPins.appendChild(fragment);
+    //var fragment = document.createDocumentFragment();
+    //for (var i = 0; i < window.data.offersList.length; i++) {
+      //fragment.appendChild(window.pin.renderPin(window.data.offersList[i]));
+    //}
+    //window.pin.mapPins.appendChild(fragment);
+
+    window.load(function (offers) {
+      var fragment = document.createDocumentFragment();
+      for (var i = 0; i < offers.length; i++) {
+        fragment.appendChild(window.pin.renderPin(window.data.offers[i]));
+      }
+      window.pin.mapPins.appendChild(fragment);
+    });
+
   };
+
+
 
   var disabledStateElements = function (arr) {
     for (var i = 0; i < arr.length; i++) {
@@ -122,5 +133,12 @@
   disabledStateElements(adFormChildElementsList);
   disabledStateElements(mapfiltersFormChildElementsList);
   checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
+
+  adForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(adForm), function(response) {
+      disabledStateElements(adFormChildElementsList);
+    });
+    evt.preventDefault();
+  });
 
 })();
