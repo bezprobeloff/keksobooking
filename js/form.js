@@ -74,25 +74,20 @@
         y: startCoords.y - moveEvt.clientY
       };
 
-
-
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
 
-      console.log(document.querySelector('.map').offsetWidth);
-
-      if (((window.pin.mapPinMain.offsetLeft - shift.x) >= -33) &&
-      ((window.pin.mapPinMain.offsetLeft - shift.x) <= 1200 -33) ) {
+      if (((window.pin.mapPinMain.offsetLeft - shift.x) >= (-33)) &&
+      ((window.pin.mapPinMain.offsetLeft - shift.x) <= (1200 - 33))) {
         window.pin.mapPinMain.style.left = (window.pin.mapPinMain.offsetLeft - shift.x) + 'px';
       }
-      if (((window.pin.mapPinMain.offsetTop - shift.y) <= 630) &&
-      ((window.pin.mapPinMain.offsetTop - shift.y) >=130)) {
+
+      if (((window.pin.mapPinMain.offsetTop - shift.y) <= (630 - 65 - 16)) &&
+      ((window.pin.mapPinMain.offsetTop - shift.y) >= (130 - 65 - 16))) {
         window.pin.mapPinMain.style.top = (window.pin.mapPinMain.offsetTop - shift.y) + 'px';
       }
-
-
 
       getAddressMapPin(window.pin.mapPinMain);
     };
