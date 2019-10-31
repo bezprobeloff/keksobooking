@@ -4,9 +4,9 @@
   var URL = 'https://js.dump.academy/keksobooking';
   window.upload = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
-    xhr.response = 'json';
+    xhr.responseType = 'json';
 
-    xhr.addEventListener('load', function() {
+    xhr.addEventListener('load', function () {
       onSuccess(xhr.response);
     });
 

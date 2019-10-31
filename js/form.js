@@ -12,25 +12,24 @@
   var mapDialog = document.querySelector('.map');
 
 
+  var onSuccess = function (offersCards) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < 5; i++) {
+      fragment.appendChild(window.pin.renderPin(offersCards[i]));
+    }
+    window.pin.mapPins.appendChild(fragment);
+  };
+
+  var onError = function () {
+
+  };
   var enabledStatePage = function () {
     mapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     enabledStateElements(adFormChildElementsList);
     enabledStateElements(mapfiltersFormChildElementsList);
 
-    //var fragment = document.createDocumentFragment();
-    //for (var i = 0; i < window.data.offersList.length; i++) {
-      //fragment.appendChild(window.pin.renderPin(window.data.offersList[i]));
-    //}
-    //window.pin.mapPins.appendChild(fragment);
-
-    window.load(function (offers) {
-      var fragment = document.createDocumentFragment();
-      for (var i = 0; i < offers.length; i++) {
-        fragment.appendChild(window.pin.renderPin(window.data.offers[i]));
-      }
-      window.pin.mapPins.appendChild(fragment);
-    });
+    window.load(onSuccess);
 
   };
 
@@ -135,7 +134,7 @@
   checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
 
   adForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(adForm), function(response) {
+    window.upload(new FormData(adForm), function (response) {
       disabledStateElements(adFormChildElementsList);
     });
     evt.preventDefault();
