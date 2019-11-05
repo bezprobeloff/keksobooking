@@ -10,20 +10,33 @@
   var mapfiltersFormChildElementsList = mapfiltersForm
     .querySelectorAll('fieldset, select, input');
   var mapDialog = document.querySelector('.map');
+  var main = document.querySelector('main');
 
 
+  var onGetSuccess = function (offersCards) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < 5; i++) {
+      fragment.appendChild(window.pin.renderPin(offersCards[i]));
+    }
+    window.pin.mapPins.appendChild(fragment);
+  };
+
+
+
+  var onError = function () {
+
+  };
   var enabledStatePage = function () {
     mapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     enabledStateElements(adFormChildElementsList);
     enabledStateElements(mapfiltersFormChildElementsList);
 
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.offersList.length; i++) {
-      fragment.appendChild(window.pin.renderPin(window.data.offersList[i]));
-    }
-    window.pin.mapPins.appendChild(fragment);
+    window.load(onGetSuccess);
+
   };
+
+
 
   var disabledStateElements = function (arr) {
     for (var i = 0; i < arr.length; i++) {
@@ -122,5 +135,47 @@
   disabledStateElements(adFormChildElementsList);
   disabledStateElements(mapfiltersFormChildElementsList);
   checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
+
+  var onSetSuccess = function (data) {
+    disabledStateElements(adFormChildElementsList);
+
+    var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(successTemplate.cloneNode(true));
+    main.appendChild(fragment);
+    document.addEventListener('keydown', onPopupEscPress);
+  };
+
+  var onPopupEscPress = function (evt) {
+    window.common.isEscEvent(evt, closePopup);
+  };
+
+  var closePopup = function () {
+    //сделать универсальной для success and error
+    document.querySelector('main > .success').remove();
+    //document.querySelector('main > .error').remove();
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  var onSetError = function(errorMessage) {
+    var errorTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(errorTemplate.cloneNode(true));
+    main.appendChild(fragment);
+    document.addEventListener('keydown', onPopupEscPress);
+  };
+
+  adForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(adForm), onSetSuccess, onSetError);
+    evt.preventDefault();
+  });
+
+
 
 })();
