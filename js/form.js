@@ -23,7 +23,7 @@
 
 
 
-  var onError = function () {
+  var onGetError = function () {
 
   };
   var enabledStatePage = function () {
@@ -32,8 +32,15 @@
     enabledStateElements(adFormChildElementsList);
     enabledStateElements(mapfiltersFormChildElementsList);
 
-    window.load(onGetSuccess);
+    window.load(onGetSuccess, onSetError);
 
+  };
+
+  var disabledSatePage = function () {
+    mapDialog.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    disabledStateElements(adFormChildElementsList);
+    disabledStateElements(mapfiltersFormChildElementsList);
   };
 
 
@@ -137,7 +144,7 @@
   checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
 
   var onSetSuccess = function (data) {
-    disabledStateElements(adFormChildElementsList);
+
 
     var successTemplate = document.querySelector('#success')
     .content
@@ -157,6 +164,7 @@
     //сделать универсальной для success and error
     document.querySelector('main > .success').remove();
     //document.querySelector('main > .error').remove();
+    disabledSatePage();
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
