@@ -19,11 +19,19 @@
     return pinElement;
   };
 
+  var clearMapPins = function() {
+    var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for(var pin of pins ) {
+     pin.remove();
+    }
+  };
+
   window.pin = {
     MAP_PIN_MAIN_HEIGHT: MAP_PIN_MAIN_HEIGHT,
     MAP_PIN_MAIN_WIDTH: MAP_PIN_MAIN_WIDTH,
     mapPins: mapPins,
     mapPinMain: mapPinMain,
-    renderPin: renderPin
+    renderPin: renderPin,
+    clearMapPins: clearMapPins
   };
 })();
