@@ -4,23 +4,55 @@
   var adForm = document.querySelector('.ad-form');
   var adFormSelectRooms = adForm.querySelector('select[name="rooms"]');
   var adFormSelectCapacity = adForm.querySelector('select[name="capacity"]');
+
   var adFormAdressInput = adForm.querySelector('input[name="address"]');
   var adFormChildElementsList = adForm.querySelectorAll('fieldset, select, input');
   var mapfiltersForm = document.querySelector('form.map__filters');
   var mapfiltersFormChildElementsList = mapfiltersForm
     .querySelectorAll('fieldset, select, input');
+  var mapFilterHousingType = mapfiltersForm.querySelector('select[name="housing-type"]');
+
   var mapDialog = document.querySelector('.map');
   var main = document.querySelector('main');
 
+  var housingTypeElment = mapFilterHousingType.value;
 
-  var onGetSuccess = function (offersCards) {
+  var data = [];
+  var serverData = {
+    onHousingTypeChange: function(housingType) {}
+  };
+
+  serverData.onHousingTypeChange = function (housingType) {
+    housingTypeElment = housingType;
+  };
+
+  var updateCards = function() {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < 5; i++) {
-      fragment.appendChild(window.pin.renderPin(offersCards[i]));
-    }
+    var newData = data.
+      filter(function (nData, i, arr) {
+        return (housingTypeElment === 'any') ||
+        (nData.offer.type === housingTypeElment)
+        ;}).
+      filter(function (nData, i, arr){
+        return i<5;
+      });
+
+
+    newData.forEach(function(item) {
+      fragment.appendChild(window.pin.renderPin(item));
+    });
     window.pin.mapPins.appendChild(fragment);
   };
 
+  var onGetSuccess = function (offersCards) {
+    window.pin.clearMapPins();
+    data = offersCards;
+    updateCards();
+  };
+
+  var clearMapPins = function () {
+
+  };
 
 
   var onGetError = function () {
@@ -139,13 +171,19 @@
     checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
   });
 
+
+  mapFilterHousingType.addEventListener('change', function(evt) {
+    housingTypeElment = mapFilterHousingType.value;
+    window.load(onGetSuccess, onSetError);
+  });
+
+
+
   disabledStateElements(adFormChildElementsList);
   disabledStateElements(mapfiltersFormChildElementsList);
   checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
 
   var onSetSuccess = function (data) {
-
-
     var successTemplate = document.querySelector('#success')
     .content
     .querySelector('.success');
