@@ -11,30 +11,81 @@
   var mapfiltersFormChildElementsList = mapfiltersForm
     .querySelectorAll('fieldset, select, input');
   var mapFilterHousingType = mapfiltersForm.querySelector('select[name="housing-type"]');
-
+  var mapFilterHousingPrice = mapfiltersForm.querySelector('select[name="housing-price"]');
+  var mapFilterHousingRooms = mapfiltersForm.querySelector('select[name="housing-rooms"]');
+  var mapFilterHousingGuests = mapfiltersForm.querySelector('select[name="housing-guests"]');
   var mapDialog = document.querySelector('.map');
   var main = document.querySelector('main');
 
-  var housingTypeElment = mapFilterHousingType.value;
+  var housingTypeElement = mapFilterHousingType.value;
+  var housingPrice = {
+    type: mapFilterHousingPrice.value,
+    value: mapFilterHousingPrice.options[mapFilterHousingPrice.selectedIndex].text
+  };
+  var housingRoomsElement = mapFilterHousingRooms.value;
+  var housingGuestsElement = mapFilterHousingGuests.value;
 
   var data = [];
   var serverData = {
-    onHousingTypeChange: function(housingType) {}
+    onHousingTypeChange: function(housingType) {},
+    onHousingRoomsChange: function(housingRooms) {},
+    onHousingGuestsChange: function(housingGuests) {},
+    onHousingPriceChange: function(housingPriceType, housingPriceValue) {}
   };
 
   serverData.onHousingTypeChange = function (housingType) {
-    housingTypeElment = housingType;
+    housingTypeElement = housingType;
+  };
+  serverData.onHousingRoomsChange = function (housingRooms) {
+    housingRoomsElement = housingRooms;
+  };
+
+  serverData.onHousingGuestsChange = function (housingGuests) {
+    housingGuestsElement = housingGuests;
+  };
+  serverData.onHousingPriceChange = function (housingPriceType, housingPriceValue) {
+    housingPrice.type = housingPriceType;
+    housingPrice.value = housingPriceValue;
+  };
+
+  var getPriceRank = function (textPriceRank) {
+    return textPriceRank.match(/\d+/gi);
   };
 
   var updateCards = function() {
     var fragment = document.createDocumentFragment();
     var newData = data.
       filter(function (nData, i, arr) {
-        return (housingTypeElment === 'any') ||
-        (nData.offer.type === housingTypeElment)
+        return (housingTypeElement === 'any') ||
+        (nData.offer.type === housingTypeElement)
         ;}).
-      filter(function (nData, i, arr){
-        return i<5;
+      filter(function (nData, i, arr) {
+        var result = false;
+        if(housingPrice.type === 'any') {
+          result = true;
+        } else if ((housingPrice.type === 'low') &&
+          (nData.offer.price < getPriceRank(housingPrice.value))) {
+          result = true;
+        } else if ((housingPrice.type === 'high') &&
+        (nData.offer.price > getPriceRank(housingPrice.value))) {
+        result = true;
+      } else if ((housingPrice.type === 'middle') &&
+      (
+        (nData.offer.price > getPriceRank(housingPrice.value)[0]) &&
+        (nData.offer.price < getPriceRank(housingPrice.value)[1])
+
+        )) {
+      result = true;
+    }
+        return result;
+      }).
+      filter (function (nData, i, arr) {
+        return (housingRoomsElement === 'any') ||
+        (nData.offer.rooms === parseInt(housingRoomsElement));
+      }).
+      filter (function (nData, i, arr) {
+        return (housingGuestsElement === 'any') ||
+        (nData.offer.guests === parseInt(housingGuestsElement));
       });
 
 
@@ -50,14 +101,9 @@
     updateCards();
   };
 
-  var clearMapPins = function () {
-
-  };
-
-
   var onGetError = function () {
-
   };
+
   var enabledStatePage = function () {
     mapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -74,8 +120,6 @@
     disabledStateElements(adFormChildElementsList);
     disabledStateElements(mapfiltersFormChildElementsList);
   };
-
-
 
   var disabledStateElements = function (arr) {
     for (var i = 0; i < arr.length; i++) {
@@ -173,7 +217,22 @@
 
 
   mapFilterHousingType.addEventListener('change', function(evt) {
-    housingTypeElment = mapFilterHousingType.value;
+    housingTypeElement = mapFilterHousingType.value;
+    window.load(onGetSuccess, onSetError);
+  });
+
+  mapFilterHousingRooms.addEventListener('change', function(evt) {
+    housingRoomsElement = mapFilterHousingRooms.value;
+    window.load(onGetSuccess, onSetError);
+  });
+  mapFilterHousingGuests.addEventListener('change', function(evt) {
+    housingGuestsElement = mapFilterHousingGuests.value;
+    window.load(onGetSuccess, onSetError);
+  });
+
+  mapFilterHousingPrice.addEventListener('change', function(evt) {
+    housingPrice.type = mapFilterHousingPrice.value;
+    housingPrice.value = mapFilterHousingPrice.options[this.selectedIndex].text;
     window.load(onGetSuccess, onSetError);
   });
 
