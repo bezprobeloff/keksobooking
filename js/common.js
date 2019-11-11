@@ -3,14 +3,13 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
+
   window.common = {
     ENTER_KEYCODE: ENTER_KEYCODE,
     ESC_KEYCODE: ESC_KEYCODE,
 
     isEscEvent: function (evt, action) {
-
       if (evt.keyCode === ESC_KEYCODE) {
-
         action();
       }
     },
