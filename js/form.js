@@ -14,6 +14,7 @@
   var mapFilterHousingPrice = mapfiltersForm.querySelector('select[name="housing-price"]');
   var mapFilterHousingRooms = mapfiltersForm.querySelector('select[name="housing-rooms"]');
   var mapFilterHousingGuests = mapfiltersForm.querySelector('select[name="housing-guests"]');
+  var mapFilterHousingFeaturesList = mapfiltersForm.querySelectorAll('.map__checkbox');
   var mapDialog = document.querySelector('.map');
   var main = document.querySelector('main');
 
@@ -24,6 +25,7 @@
   };
   var housingRoomsElement = mapFilterHousingRooms.value;
   var housingGuestsElement = mapFilterHousingGuests.value;
+  var housingFeaturesList = [];
 
   var data = [];
   var serverData = {
@@ -86,8 +88,21 @@
       filter (function (nData, i, arr) {
         return (housingGuestsElement === 'any') ||
         (nData.offer.guests === parseInt(housingGuestsElement));
+      }).
+      filter (function (nData, i, arr) {
+        var result = false;
+        if(housingFeaturesList.length === 0) {
+          result = true;
+        } else {
+          var testRes = housingFeaturesList.every(function(featureGuest) {
+            return nData.offer.features.includes(featureGuest);
+          });
+          if(testRes) {
+            result = true;
+          }
+        }
+        return result;
       });
-
 
     newData.forEach(function(item) {
       fragment.appendChild(window.pin.renderPin(item));
@@ -225,10 +240,28 @@
     housingRoomsElement = mapFilterHousingRooms.value;
     window.load(onGetSuccess, onSetError);
   });
-  mapFilterHousingGuests.addEventListener('change', function(evt) {
-    housingGuestsElement = mapFilterHousingGuests.value;
+
+  var updateSelectFilterFeaturesList = function () {
+    housingFeaturesList.length = 0;
+    for (var i = 0; i < mapFilterHousingFeaturesList.length; i++) {
+      if (mapFilterHousingFeaturesList[i].checked) {
+        housingFeaturesList.push(mapFilterHousingFeaturesList[i].value);
+      }
+    }
     window.load(onGetSuccess, onSetError);
-  });
+  };
+
+  var createFeaturesCheckedHandler = function (featureElement) {
+    featureElement.addEventListener('change', function () {
+      updateSelectFilterFeaturesList();
+    });
+  };
+
+  for (var i =0; i < mapFilterHousingFeaturesList.length; i++) {
+    createFeaturesCheckedHandler(mapFilterHousingFeaturesList[i]);
+  }
+
+
 
   mapFilterHousingPrice.addEventListener('change', function(evt) {
     housingPrice.type = mapFilterHousingPrice.value;
