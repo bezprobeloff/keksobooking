@@ -119,9 +119,9 @@
     window.pin.mapPins.appendChild(fragment);
   };
 
-  var onGetSuccess = function (offersCards) {
+  var onGetSuccess = function (newData) {
     window.pin.clearMapPins();
-    data = offersCards;
+    data = newData;
     window.debounce(updateCards());
   };
 

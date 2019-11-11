@@ -9,12 +9,16 @@
   var mapPins = document.querySelector('.map__pins');
   var mapPinMain = document.querySelector('.map__pin--main');
 
-  var renderPin = function (pin) {
+  var renderPin = function (data) {
     var pinElement = pinTemplate.cloneNode(true);
-    pinElement.style.left = pin.location.x + 'px';
-    pinElement.style.top = pin.location.y + 'px';
-    pinElement.querySelector('img').src = pin.author.avatar;
-    pinElement.querySelector('img').alt = pin.offer.title;
+    pinElement.style.left = data.location.x + 'px';
+    pinElement.style.top = data.location.y + 'px';
+    pinElement.querySelector('img').src = data.author.avatar;
+    pinElement.querySelector('img').alt = data.offer.title;
+
+    pinElement.addEventListener('click', function () {
+      window.card.renderCard(data);
+    });
 
     return pinElement;
   };
