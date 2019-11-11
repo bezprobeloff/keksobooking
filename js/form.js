@@ -32,23 +32,27 @@
     onHousingTypeChange: function(housingType) {},
     onHousingRoomsChange: function(housingRooms) {},
     onHousingGuestsChange: function(housingGuests) {},
-    onHousingPriceChange: function(housingPriceType, housingPriceValue) {}
+    onHousingPriceChange: function(housingPriceType, housingPriceValue) {},
+    onHousingFeaturesChange: function(housingFeatures) {}
   };
 
-  serverData.onHousingTypeChange = function (housingType) {
+  serverData.onHousingTypeChange = window.debounce(function (housingType) {
     housingTypeElement = housingType;
-  };
-  serverData.onHousingRoomsChange = function (housingRooms) {
+  });
+  serverData.onHousingRoomsChange = window.debounce(function (housingRooms) {
     housingRoomsElement = housingRooms;
-  };
+  });
+  serverData.onHousingFeaturesChange = window.debounce(function (housingFeatures) {
+    housingFeaturesList = housingFeatures;
+  });
 
-  serverData.onHousingGuestsChange = function (housingGuests) {
+  serverData.onHousingGuestsChange = window.debounce(function (housingGuests) {
     housingGuestsElement = housingGuests;
-  };
-  serverData.onHousingPriceChange = function (housingPriceType, housingPriceValue) {
+  });
+  serverData.onHousingPriceChange = window.debounce(function (housingPriceType, housingPriceValue) {
     housingPrice.type = housingPriceType;
     housingPrice.value = housingPriceValue;
-  };
+  });
 
   var getPriceRank = function (textPriceRank) {
     return textPriceRank.match(/\d+/gi);
@@ -102,6 +106,9 @@
           }
         }
         return result;
+      }).
+      filter (function (nData, i, arr) {
+        return i < 5;
       });
 
     newData.forEach(function(item) {
@@ -113,7 +120,7 @@
   var onGetSuccess = function (offersCards) {
     window.pin.clearMapPins();
     data = offersCards;
-    updateCards();
+    window.debounce(updateCards());
   };
 
   var onGetError = function () {
