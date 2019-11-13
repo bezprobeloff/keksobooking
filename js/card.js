@@ -41,6 +41,24 @@
     var fragment = document.createDocumentFragment();
     fragment.appendChild(cardElement.cloneNode(true));
     mapDialog.appendChild(fragment);
+
+    var closePopup = function () {
+      if (mapDialog.querySelector('.map__card.popup') !== null) {
+        mapDialog.querySelector('.map__card.popup').remove();
+      }
+      document.removeEventListener('keydown', onPopupEscPress);
+    };
+
+    var onPopupEscPress = function (evt) {
+      window.common.isEscEvent(evt, closePopup);
+    };
+
+    document.addEventListener('keydown', onPopupEscPress);
+
+    mapDialog.querySelector('.popup__close').addEventListener('click', function () {
+      closePopup();
+    });
+
   };
 
   window.card = {

@@ -4,7 +4,11 @@
   var adForm = document.querySelector('.ad-form');
   var adFormSelectRooms = adForm.querySelector('select[name="rooms"]');
   var adFormSelectCapacity = adForm.querySelector('select[name="capacity"]');
-
+  var adFormSelectTypeHouse = adForm.querySelector('select[name="type"]');
+  var adFormSelectTimein = adForm.querySelector('select[name="timein"]');
+  var adFormSelectTimeout = adForm.querySelector('select[name="timeout"]');
+  var adFormTitleInput = adForm.querySelector('input[name="title"]');
+  var adFormPriceInput = adForm.querySelector('input[name="price"]');
   var adFormAdressInput = adForm.querySelector('input[name="address"]');
   var adFormChildElementsList = adForm.querySelectorAll('fieldset, select, input');
   var mapfiltersForm = document.querySelector('form.map__filters');
@@ -17,6 +21,50 @@
   var mapFilterHousingFeaturesList = mapfiltersForm.querySelectorAll('.map__checkbox');
   var mapDialog = document.querySelector('.map');
   var main = document.querySelector('main');
+
+  adFormTitleInput.required = true;
+  adFormPriceInput.required = true;
+
+  adFormTitleInput.minLength = 30;
+  adFormTitleInput.maxLength = 100;
+
+  adFormAdressInput.setAttribute('readonly', 'readonly');
+
+  adFormPriceInput.addEventListener('input', function (evt) {
+    var target = evt.target;
+    if (target.value < parseInt(adFormPriceInput.placeholder, 10)) {
+      target.setCustomValidity('Вы ввели меньше минимальной цены ' + adFormPriceInput.placeholder);
+    } else if (target.value > 1000000) {
+      target.setCustomValidity('Вы ввели больше максимальной цены');
+    } else {
+      target.setCustomValidity('');
+    }
+  });
+
+  adFormSelectTypeHouse.addEventListener('change', function () {
+    switch (adFormSelectTypeHouse.value) {
+      case 'bungalo':
+        adFormPriceInput.placeholder = 0;
+        break;
+      case 'flat':
+        adFormPriceInput.placeholder = 1000;
+        break;
+      case 'house':
+        adFormPriceInput.placeholder = 5000;
+        break;
+      case 'palace':
+        adFormPriceInput.placeholder = 10000;
+        break;
+    }
+  });
+
+  adFormSelectTimein.addEventListener('change', function () {
+    adFormSelectTimeout.selectedIndex = adFormSelectTimein.selectedIndex;
+  });
+
+  adFormSelectTimeout.addEventListener('change', function () {
+    adFormSelectTimein.selectedIndex = adFormSelectTimeout.selectedIndex;
+  });
 
   var housingTypeElement = mapFilterHousingType.value;
   var housingPrice = {
@@ -178,6 +226,14 @@
     }
   };
 
+  adFormSelectRooms.addEventListener('change', function () {
+    checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
+  });
+
+  adFormSelectCapacity.addEventListener('change', function () {
+    checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
+  });
+
   window.pin.mapPinMain.addEventListener('mousedown', function (evt) {
     enabledStatePage();
     evt.preventDefault();
@@ -231,13 +287,7 @@
     }
   });
 
-  adFormSelectRooms.addEventListener('click', function () {
-    checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
-  });
 
-  adFormSelectCapacity.addEventListener('click', function () {
-    checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
-  });
 
 
   mapFilterHousingType.addEventListener('change', function () {
