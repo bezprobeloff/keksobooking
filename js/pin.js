@@ -17,6 +17,8 @@
     pinElement.querySelector('img').alt = data.offer.title;
 
     pinElement.addEventListener('click', function () {
+      if(document.querySelector('.map > .map__card.popup') !== null)
+        document.querySelector('.map > .map__card.popup').remove();
       window.card.renderCard(data);
     });
 
