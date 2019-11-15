@@ -29,7 +29,7 @@
   var clearMapPins = function() {
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
     for(var pin of pins ) {
-     pin.remove();
+      pin.remove();
     }
   };
 

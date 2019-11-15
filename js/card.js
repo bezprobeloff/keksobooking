@@ -6,6 +6,17 @@
   .querySelector('.map__card');
   var mapDialog = document.querySelector('.map');
 
+  var closePopup = function () {
+    if (mapDialog.querySelector('.map__card.popup') !== null) {
+      mapDialog.querySelector('.map__card.popup').remove();
+    }
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  var onPopupEscPress = function (evt) {
+    window.common.isEscEvent(evt, closePopup);
+  };
+
   var renderCard = function (data) {
     var cardElement = cardTemplate.cloneNode(true);
     cardElement.querySelector('.popup__title').textContent = data.offer.title;
@@ -42,17 +53,6 @@
     fragment.appendChild(cardElement.cloneNode(true));
     mapDialog.appendChild(fragment);
 
-    var closePopup = function () {
-      if (mapDialog.querySelector('.map__card.popup') !== null) {
-        mapDialog.querySelector('.map__card.popup').remove();
-      }
-      document.removeEventListener('keydown', onPopupEscPress);
-    };
-
-    var onPopupEscPress = function (evt) {
-      window.common.isEscEvent(evt, closePopup);
-    };
-
     document.addEventListener('keydown', onPopupEscPress);
 
     mapDialog.querySelector('.popup__close').addEventListener('click', function () {
@@ -62,6 +62,7 @@
   };
 
   window.card = {
-    renderCard: renderCard
+    renderCard: renderCard,
+    closePopup: closePopup
   };
 })();

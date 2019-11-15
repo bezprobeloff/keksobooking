@@ -26,6 +26,7 @@
     adForm.classList.remove('ad-form--disabled');
     enabledStateElements(adFormElementsList);
     enabledStateElements(mapFiltersFormElementsList);
+    window.map.initValue();
     if (!statePage) {
       window.load(window.map.onGetSuccess, window.map.onGetError);
     }
@@ -37,7 +38,10 @@
     adForm.classList.add('ad-form--disabled');
     disabledStateElements(adFormElementsList);
     disabledStateElements(mapFiltersFormElementsList);
+    mapFiltersForm.reset();
+    adForm.reset();
     window.pin.clearMapPins();
+    window.card.closePopup();
     statePage = false;
   };
 

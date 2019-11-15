@@ -21,6 +21,15 @@
   var housingRoomsElement = filterHousingRooms.value;
   var housingGuestsElement = filterHousingGuests.value;
   var housingFeaturesList = [];
+
+  var initValue = function () {
+    housingTypeElement = filterHousingType.value;
+    housingPrice.type = filterHousingPrice.value;
+    housingPrice.value = filterHousingPrice.options[filterHousingPrice.selectedIndex].text;
+    housingRoomsElement = filterHousingRooms.value;
+    housingGuestsElement = filterHousingGuests.value;
+    housingFeaturesList = [];
+  };
   var serverData = {
     onHousingTypeChange: function (housingType) {},
     onHousingRoomsChange: function (housingRooms) {},
@@ -168,7 +177,8 @@
 
   window.map = {
     onGetSuccess: onGetSuccess,
-    onGetError: onGetError
+    onGetError: onGetError,
+    initValue: initValue
   };
 
 })();
