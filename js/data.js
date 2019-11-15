@@ -1,56 +1,104 @@
 'use strict';
 
 (function () {
-  var TYPES_OF_HOUSING = ['palace', 'flat', 'house', 'bungalo'];
-  var CHECK_TIMES = ['12:00', '13:00', '14:00'];
-  var FEATURES_HOUSING = ['wifi', 'dishwasher', 'parking', 'washer',
-    'elevator', 'conditioner'];
-  var PHOTOS_HOUSE = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-  var offersList;
+  var data;
 
-  var generateOffersList = function (arrTypesOfHousing, arrCheckTimes,
-      arrFeaturesHousing, arrPhotosHouse) {
-    var offersListNew = [];
 
-    for (var i = 1; i < 9; i++) {
-      var locationX = window.common.generateRandomNumberInRange(0, 1200);
-      var locationY = window.common.generateRandomNumberInRange(130, 630);
-      offersListNew.push({
-        author: {
-          avatar: 'img/avatars/user0' + i + '.png'
-        },
-
-        offer: {
-          title: 'Заголовок предложения №' + i,
-          address: locationX + ', ' + locationY,
-          price: window.common.generateRandomNumberInRange(0, 1000),
-          type: window.common.getRandomElementFromArray(arrTypesOfHousing),
-          rooms: window.common.generateRandomNumberInRange(1, 10),
-          guests: window.common.generateRandomNumberInRange(0, 5),
-          checkin: window.common.getRandomElementFromArray(arrCheckTimes),
-          checkout: window.common.getRandomElementFromArray(arrCheckTimes),
-          features: window.common.getListRandomValues(arrFeaturesHousing),
-          description: 'Красивая хата №' + i,
-          photos: window.common.getListRandomValues(arrPhotosHouse)
-        },
-
-        location: {
-          x: locationX,
-          y: locationY
-        }
-      });
-    }
-
-    return offersListNew;
+  /////
+  var serverData = {
+    onHousingTypeChange: function (housingType) {},
+    onHousingRoomsChange: function (housingRooms) {},
+    onHousingGuestsChange: function (housingGuests) {},
+    onHousingPriceChange: function (housingPriceType, housingPriceValue) {},
+    onHousingFeaturesChange: function (housingFeatures) {}
   };
 
-  offersList = generateOffersList(TYPES_OF_HOUSING, CHECK_TIMES,
-      FEATURES_HOUSING, PHOTOS_HOUSE);
+  serverData.onHousingTypeChange = window.debounce(function (housingType) {
+    housingTypeElement = housingType;
+  });
+  serverData.onHousingRoomsChange = window.debounce(function (housingRooms) {
+    housingRoomsElement = housingRooms;
+  });
+  serverData.onHousingFeaturesChange = window.debounce(function (housingFeatures) {
+    housingFeaturesList = housingFeatures;
+  });
 
-  window.data = {
-    offersList: offersList
+  serverData.onHousingGuestsChange = window.debounce(function (housingGuests) {
+    housingGuestsElement = housingGuests;
+  });
+  serverData.onHousingPriceChange = window.debounce(function (housingPriceType, housingPriceValue) {
+    housingPrice.type = housingPriceType;
+    housingPrice.value = housingPriceValue;
+  });
+  /////
+
+  var updateCards = function () {
+    window.card.closePopup();
+    var fragment = document.createDocumentFragment();
+    var newData = data.
+    filter(function (nData) {
+      return (nData.offer !== null);
+    }).
+    filter(function (nData) {
+      return (housingTypeElement === 'any') ||
+      (nData.offer.type === housingTypeElement);
+    }).
+    filter(function (nData) {
+      var result = false;
+      if (housingPrice.type === 'any') {
+        result = true;
+      } else if ((housingPrice.type === 'low') &&
+        (nData.offer.price < getPriceRank(housingPrice.value))) {
+        result = true;
+      } else if ((housingPrice.type === 'high') &&
+      (nData.offer.price > getPriceRank(housingPrice.value))) {
+        result = true;
+      } else if ((housingPrice.type === 'middle') &&
+    (
+      (nData.offer.price > getPriceRank(housingPrice.value)[0]) &&
+      (nData.offer.price < getPriceRank(housingPrice.value)[1])
+    )) {
+        result = true;
+      }
+      return result;
+    }).
+    filter(function (nData) {
+      return (housingRoomsElement === 'any') ||
+      (nData.offer.rooms === parseInt(housingRoomsElement, 10));
+    }).
+    filter(function (nData) {
+      return (housingGuestsElement === 'any') ||
+      (nData.offer.guests === parseInt(housingGuestsElement, 10));
+    }).
+    filter(function (nData) {
+      var result = false;
+
+      if (housingFeaturesList.length === 0) {
+        result = true;
+      } else {
+        var testRes = housingFeaturesList.every(function (featureGuest) {
+          return nData.offer.features.includes(featureGuest);
+        });
+
+        if (testRes) {
+          result = true;
+        }
+      }
+      return result;
+    }).
+    filter(function (nData, i) {
+      return i < 5;
+    });
+
+    newData.forEach(function (item) {
+      fragment.appendChild(window.pin.renderPin(item));
+    });
+    window.pin.mapPins.appendChild(fragment);
+  };
+
+  window.newData = {
+    data: data,
+    updateCards: updateCards
   };
 
 })();

@@ -30,32 +30,6 @@
     housingFeaturesList = [];
   };
 
-  var serverData = {
-    onHousingTypeChange: function (housingType) {},
-    onHousingRoomsChange: function (housingRooms) {},
-    onHousingGuestsChange: function (housingGuests) {},
-    onHousingPriceChange: function (housingPriceType, housingPriceValue) {},
-    onHousingFeaturesChange: function (housingFeatures) {}
-  };
-
-  serverData.onHousingTypeChange = window.debounce(function (housingType) {
-    housingTypeElement = housingType;
-  });
-  serverData.onHousingRoomsChange = window.debounce(function (housingRooms) {
-    housingRoomsElement = housingRooms;
-  });
-  serverData.onHousingFeaturesChange = window.debounce(function (housingFeatures) {
-    housingFeaturesList = housingFeatures;
-  });
-
-  serverData.onHousingGuestsChange = window.debounce(function (housingGuests) {
-    housingGuestsElement = housingGuests;
-  });
-  serverData.onHousingPriceChange = window.debounce(function (housingPriceType, housingPriceValue) {
-    housingPrice.type = housingPriceType;
-    housingPrice.value = housingPriceValue;
-  });
-
   var getPriceRank = function (textPriceRank) {
     return textPriceRank.match(/\d+/gi);
   };
@@ -127,7 +101,13 @@
   var onGetSuccess = function (newData) {
     window.pin.clearMapPins();
     data = newData;
-    window.debounce(updateCards());
+    //window.debounce(updateCards);
+    updateCards();
+    /*
+    window.setTimeout(function () {
+      updateCards();
+    }, 3000);
+    */
   };
 
   var onGetError = function (errorMessage) {

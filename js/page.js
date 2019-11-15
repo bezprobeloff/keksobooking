@@ -25,10 +25,10 @@
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     enabledStateElements(adFormElementsList);
-    enabledStateElements(mapFiltersFormElementsList);
     if (!statePage) {
       window.load(window.map.onGetSuccess, window.map.onGetError);
     }
+    enabledStateElements(mapFiltersFormElementsList);
     statePage = true;
   };
 
