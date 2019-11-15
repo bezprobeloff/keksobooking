@@ -11,6 +11,7 @@
   var adFormTitleInput = adForm.querySelector('input[name="title"]');
   var adFormPriceInput = adForm.querySelector('input[name="price"]');
   var adFormAdressInput = adForm.querySelector('input[name="address"]');
+  var adFormResetButton = adForm.querySelector('.ad-form__reset');
 
   adFormTitleInput.required = true;
   adFormPriceInput.required = true;
@@ -54,6 +55,10 @@
     adFormSelectTimein.selectedIndex = adFormSelectTimeout.selectedIndex;
   });
 
+  adFormResetButton.addEventListener('click', function () {
+    window.page.disabledStatePage();
+  });
+
   var checkValidityRoomsFromCapacity = function (countRooms, countCapacity) {
     if ((parseInt(countRooms, 10) === 100) && (countCapacity > 0)) {
       adFormSelectCapacity.setCustomValidity('Выберите вариант не для гостей');
@@ -88,13 +93,18 @@
     fragment.appendChild(successTemplate.cloneNode(true));
     main.appendChild(fragment);
     document.addEventListener('keydown', onPopupEscPress);
-    document.addEventListener('click', closePopup);
+    document.addEventListener('click', closePopupSuccess);
   };
 
   var onPopupEscPress = function (evt) {
-    window.common.isEscEvent(evt, closePopup);
+    if (document.querySelector('main > .success') !== null) {
+      window.common.isEscEvent(evt, closePopupSuccess);
+    } else if (document.querySelector('main > .error') !== null) {
+      window.common.isEscEvent(evt, closePopupError);
+    }
   };
 
+  /*
   var closePopup = function () {
     if (document.querySelector('main > .success') !== null) {
       document.querySelector('main > .success').remove();
@@ -106,6 +116,26 @@
     document.removeEventListener('keydown', onPopupEscPress);
     document.removeEventListener('click', closePopup);
   };
+  */
+
+  var closePopupSuccess = function () {
+    if (document.querySelector('main > .success') !== null) {
+      document.querySelector('main > .success').remove();
+    }
+
+    window.page.disabledStatePage();
+    document.removeEventListener('keydown', onPopupEscPress);
+    document.removeEventListener('click', closePopupSuccess);
+  };
+
+  var closePopupError = function () {
+    if (document.querySelector('main > .error') !== null) {
+      document.querySelector('main > .error').remove();
+    }
+
+    document.removeEventListener('keydown', onPopupEscPress);
+    document.removeEventListener('click', closePopupError);
+  };
 
   var onError = function (errorMessage) {
     var errorTemplate = document.querySelector('#error')
@@ -115,8 +145,9 @@
     var fragment = document.createDocumentFragment();
     fragment.appendChild(errorTemplate.cloneNode(true));
     main.appendChild(fragment);
+    document.querySelector('main .error__button').addEventListener('click', closePopupError);
     document.addEventListener('keydown', onPopupEscPress);
-    document.addEventListener('click', closePopup);
+    document.addEventListener('click', closePopupError);
   };
 
   adForm.addEventListener('submit', function (evt) {
