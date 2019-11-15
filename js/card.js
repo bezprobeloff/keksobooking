@@ -45,8 +45,8 @@
     if (data.offer.photos.length === 0) {
       cardElement.querySelector('.popup__photos').remove();
     } else {
-      data.offer.photos.forEach(function (item, i) {
-        if (i === 0) {
+      data.offer.photos.forEach(function (item, index) {
+        if (index === 0) {
           cardElement.querySelector('.popup__photo').src = item;
         } else {
           var newLinkPhoto = cardElement.querySelector('.popup__photo').cloneNode(true);

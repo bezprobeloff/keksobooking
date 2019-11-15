@@ -137,7 +137,7 @@
     document.removeEventListener('click', closePopupError);
   };
 
-  var onError = function (errorMessage) {
+  var onError = function () {
     var errorTemplate = document.querySelector('#error')
     .content
     .querySelector('.error');
