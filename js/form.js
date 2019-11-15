@@ -116,6 +116,7 @@
     fragment.appendChild(errorTemplate.cloneNode(true));
     main.appendChild(fragment);
     document.addEventListener('keydown', onPopupEscPress);
+    document.addEventListener('click', closePopup);
   };
 
   adForm.addEventListener('submit', function (evt) {
