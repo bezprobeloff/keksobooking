@@ -76,6 +76,9 @@
   checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
 
 
+  var resetForm = function () {
+    adForm.reset();
+  };
   var onSuccess = function () {
     var successTemplate = document.querySelector('#success')
     .content
@@ -120,5 +123,9 @@
     window.upload(new FormData(adForm), onSuccess, onError);
     evt.preventDefault();
   });
+
+  window.form = {
+    resetForm: resetForm
+  };
 
 })();

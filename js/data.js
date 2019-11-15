@@ -1,18 +1,6 @@
 'use strict';
 
 (function () {
-
-
-
-
-
-
-
-
-
-
-
-
   var TYPES_OF_HOUSING = ['palace', 'flat', 'house', 'bungalo'];
   var CHECK_TIMES = ['12:00', '13:00', '14:00'];
   var FEATURES_HOUSING = ['wifi', 'dishwasher', 'parking', 'washer',
