@@ -61,8 +61,12 @@
   };
 
   var updateCards = function () {
+    window.card.closePopup();
     var fragment = document.createDocumentFragment();
     var newData = data.
+    filter(function (nData) {
+      return (nData.offer !== null);
+    }).
     filter(function (nData) {
       return (housingTypeElement === 'any') ||
       (nData.offer.type === housingTypeElement);

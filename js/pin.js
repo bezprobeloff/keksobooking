@@ -27,6 +27,9 @@
     pinElement.addEventListener('click', function () {
       if(document.querySelector('.map > .map__card.popup') !== null)
         document.querySelector('.map > .map__card.popup').remove();
+      if(document.querySelector('.map .map__pin--active') !== null)
+        document.querySelector('.map .map__pin--active').classList.remove('map__pin--active');
+      pinElement.classList.add('map__pin--active');
       window.card.renderCard(data);
     });
 
