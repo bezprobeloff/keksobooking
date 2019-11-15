@@ -76,7 +76,10 @@
   checkValidityRoomsFromCapacity(adFormSelectRooms.value, adFormSelectCapacity.value);
 
 
-  var onSetSuccess = function () {
+  var resetForm = function () {
+    adForm.reset();
+  };
+  var onSuccess = function () {
     var successTemplate = document.querySelector('#success')
     .content
     .querySelector('.success');
@@ -85,6 +88,7 @@
     fragment.appendChild(successTemplate.cloneNode(true));
     main.appendChild(fragment);
     document.addEventListener('keydown', onPopupEscPress);
+    document.addEventListener('click', closePopup);
   };
 
   var onPopupEscPress = function (evt) {
@@ -100,9 +104,10 @@
 
     window.page.disabledStatePage();
     document.removeEventListener('keydown', onPopupEscPress);
+    document.removeEventListener('click', closePopup);
   };
 
-  var onSetError = function (errorMessage) {
+  var onError = function (errorMessage) {
     var errorTemplate = document.querySelector('#error')
     .content
     .querySelector('.error');
@@ -114,8 +119,12 @@
   };
 
   adForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(adForm), onSetSuccess, onSetError);
+    window.upload(new FormData(adForm), onSuccess, onError);
     evt.preventDefault();
   });
+
+  window.form = {
+    resetForm: resetForm
+  };
 
 })();

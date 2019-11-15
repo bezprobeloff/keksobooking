@@ -9,6 +9,13 @@
   var mapPins = document.querySelector('.map__pins');
   var mapPinMain = document.querySelector('.map__pin--main');
   var adFormAdressInput = document.querySelector('input[name="address"]');
+  var startPositionPinMainX = mapPinMain.style.left;
+  var startPositionPinMainY = mapPinMain.style.top;
+
+  var resetPositionPinMain = function () {
+    mapPinMain.style.left = startPositionPinMainX;
+    mapPinMain.style.top = startPositionPinMainY;
+  };
 
   var renderPin = function (data) {
     var pinElement = pinTemplate.cloneNode(true);
@@ -29,7 +36,7 @@
   var clearMapPins = function() {
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
     for(var pin of pins ) {
-     pin.remove();
+      pin.remove();
     }
   };
 
@@ -102,6 +109,7 @@
     mapPins: mapPins,
     mapPinMain: mapPinMain,
     renderPin: renderPin,
-    clearMapPins: clearMapPins
+    clearMapPins: clearMapPins,
+    resetPositionPinMain: resetPositionPinMain
   };
 })();

@@ -2,7 +2,6 @@
 
 (function () {
   var main = document.querySelector('main');
-  var map = document.querySelector('.map');
   var filtersForm = document.querySelector('form.map__filters');
   var filterHousingType = filtersForm.querySelector('select[name="housing-type"]');
   var filterHousingPrice = filtersForm.querySelector('select[name="housing-price"]');
@@ -12,7 +11,6 @@
 
   var data = [];
 
-///////
   var housingTypeElement = filterHousingType.value;
   var housingPrice = {
     type: filterHousingPrice.value,
@@ -21,6 +19,17 @@
   var housingRoomsElement = filterHousingRooms.value;
   var housingGuestsElement = filterHousingGuests.value;
   var housingFeaturesList = [];
+
+  var resetFilterForm = function () {
+    filtersForm.reset();
+    housingTypeElement = filterHousingType.value;
+    housingPrice.type = filterHousingPrice.value;
+    housingPrice.value = filterHousingPrice.options[filterHousingPrice.selectedIndex].text;
+    housingRoomsElement = filterHousingRooms.value;
+    housingGuestsElement = filterHousingGuests.value;
+    housingFeaturesList = [];
+  };
+
   var serverData = {
     onHousingTypeChange: function (housingType) {},
     onHousingRoomsChange: function (housingRooms) {},
@@ -46,8 +55,6 @@
     housingPrice.type = housingPriceType;
     housingPrice.value = housingPriceValue;
   });
-
-////
 
   var getPriceRank = function (textPriceRank) {
     return textPriceRank.match(/\d+/gi);
@@ -168,7 +175,8 @@
 
   window.map = {
     onGetSuccess: onGetSuccess,
-    onGetError: onGetError
+    onGetError: onGetError,
+    resetFilterForm: resetFilterForm
   };
 
 })();
