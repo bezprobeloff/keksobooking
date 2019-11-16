@@ -19,18 +19,7 @@
   adFormTitleInput.maxLength = 100;
   adFormAdressInput.setAttribute('readonly', 'readonly');
 
-  adFormPriceInput.addEventListener('input', function (evt) {
-    var target = evt.target;
-    if (target.value < parseInt(adFormPriceInput.placeholder, 10)) {
-      target.setCustomValidity('Вы ввели меньше минимальной цены ' + adFormPriceInput.placeholder);
-    } else if (target.value > 1000000) {
-      target.setCustomValidity('Вы ввели больше максимальной цены');
-    } else {
-      target.setCustomValidity('');
-    }
-  });
-
-  adFormSelectTypeHouse.addEventListener('change', function () {
+  var syncTypeHouseFromPrice = function () {
     switch (adFormSelectTypeHouse.value) {
       case 'bungalo':
         adFormPriceInput.placeholder = 0;
@@ -45,6 +34,23 @@
         adFormPriceInput.placeholder = 10000;
         break;
     }
+  };
+
+  syncTypeHouseFromPrice();
+
+  adFormPriceInput.addEventListener('input', function (evt) {
+    var target = evt.target;
+    if (target.value < parseInt(adFormPriceInput.placeholder, 10)) {
+      target.setCustomValidity('Вы ввели меньше минимальной цены ' + adFormPriceInput.placeholder);
+    } else if (target.value > 1000000) {
+      target.setCustomValidity('Вы ввели больше максимальной цены');
+    } else {
+      target.setCustomValidity('');
+    }
+  });
+
+  adFormSelectTypeHouse.addEventListener('change', function () {
+    syncTypeHouseFromPrice();
   });
 
   adFormSelectTimein.addEventListener('change', function () {
@@ -83,6 +89,7 @@
 
   var resetForm = function () {
     adForm.reset();
+    syncTypeHouseFromPrice();
   };
   var onSuccess = function () {
     var successTemplate = document.querySelector('#success')
