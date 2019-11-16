@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var MAX_COUNT_PINS = 5;
   var data;
   var housingType;
   var housingPriceType;
@@ -92,7 +93,7 @@
       return result;
     }).
     filter(function (itemData, i) {
-      return i < 5;
+      return i < MAX_COUNT_PINS;
     });
 
     filterData.forEach(function (item) {

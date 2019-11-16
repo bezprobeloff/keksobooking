@@ -1,6 +1,15 @@
 'use strict';
 
 (function () {
+  var MIN_SYMBOL_INPUT_TITLE = 30;
+  var MAX_SYMBOL_INPUT_TITLE = 100;
+  var MIN_PRICE_BUNGALO = 0;
+  var MIN_PRICE_FLAT = 1000;
+  var MIN_PRICE_HOUSE = 5000;
+  var MIN_PRICE_PALACE = 10000;
+  var MAX_PRICE = 1000000;
+  var COUNT_ROOMS_NOT_FOR_GUESTS = 100;
+
   var main = document.querySelector('main');
   var adForm = document.querySelector('.ad-form');
   var adFormSelectRooms = adForm.querySelector('select[name="rooms"]');
@@ -15,23 +24,23 @@
 
   adFormTitleInput.required = true;
   adFormPriceInput.required = true;
-  adFormTitleInput.minLength = 30;
-  adFormTitleInput.maxLength = 100;
+  adFormTitleInput.minLength = MIN_SYMBOL_INPUT_TITLE;
+  adFormTitleInput.maxLength = MAX_SYMBOL_INPUT_TITLE;
   adFormAdressInput.setAttribute('readonly', 'readonly');
 
   var syncTypeHouseFromPrice = function () {
     switch (adFormSelectTypeHouse.value) {
       case 'bungalo':
-        adFormPriceInput.placeholder = 0;
+        adFormPriceInput.placeholder = MIN_PRICE_BUNGALO;
         break;
       case 'flat':
-        adFormPriceInput.placeholder = 1000;
+        adFormPriceInput.placeholder = MIN_PRICE_FLAT;
         break;
       case 'house':
-        adFormPriceInput.placeholder = 5000;
+        adFormPriceInput.placeholder = MIN_PRICE_HOUSE;
         break;
       case 'palace':
-        adFormPriceInput.placeholder = 10000;
+        adFormPriceInput.placeholder = MIN_PRICE_PALACE;
         break;
     }
   };
@@ -42,8 +51,8 @@
     var target = evt.target;
     if (target.value < parseInt(adFormPriceInput.placeholder, 10)) {
       target.setCustomValidity('Вы ввели меньше минимальной цены ' + adFormPriceInput.placeholder);
-    } else if (target.value > 1000000) {
-      target.setCustomValidity('Вы ввели больше максимальной цены');
+    } else if (target.value > MAX_PRICE) {
+      target.setCustomValidity('Вы ввели больше максимальной цены ' + MAX_PRICE + '₽/за ночь');
     } else {
       target.setCustomValidity('');
     }
@@ -66,7 +75,7 @@
   });
 
   var checkValidityRoomsFromCapacity = function (countRooms, countCapacity) {
-    if ((parseInt(countRooms, 10) === 100) && (countCapacity > 0)) {
+    if ((parseInt(countRooms, 10) === COUNT_ROOMS_NOT_FOR_GUESTS) && (countCapacity > 0)) {
       adFormSelectCapacity.setCustomValidity('Выберите вариант не для гостей');
     } else if (countRooms < countCapacity) {
       adFormSelectCapacity.setCustomValidity('Выберите не больше '

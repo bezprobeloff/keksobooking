@@ -1,8 +1,16 @@
 'use strict';
 
 (function () {
-  var MAP_PIN_MAIN_HEIGHT = 65 + 16;
+  var MAP_WIDTH = 1200;
+  var MAP_HEIGHT_LIMIT_MIN = 130;
+  var MAP_HEIGHT_LIMIT_MAX = 630;
+  var MAP_PIN_MAIN_HEIGHT = 81;
   var MAP_PIN_MAIN_WIDTH = 33;
+  var MAP_X_MIN = -(MAP_PIN_MAIN_WIDTH);
+  var MAP_X_MAX = MAP_WIDTH - MAP_PIN_MAIN_WIDTH;
+  var MAP_Y_MIN = MAP_HEIGHT_LIMIT_MIN - MAP_PIN_MAIN_HEIGHT;
+  var MAP_Y_MAX = MAP_HEIGHT_LIMIT_MAX - MAP_PIN_MAIN_HEIGHT;
+
   var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
@@ -75,13 +83,13 @@
         y: moveEvt.clientY
       };
 
-      if (((mapPinMain.offsetLeft - shift.x) >= (-33)) &&
-      ((mapPinMain.offsetLeft - shift.x) <= (1200 - 33))) {
+      if (((mapPinMain.offsetLeft - shift.x) >= MAP_X_MIN) &&
+      ((mapPinMain.offsetLeft - shift.x) <= MAP_X_MAX)) {
         mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
       }
 
-      if (((mapPinMain.offsetTop - shift.y) <= (630 - 65 - 16)) &&
-      ((mapPinMain.offsetTop - shift.y) >= (130 - 65 - 16))) {
+      if (((mapPinMain.offsetTop - shift.y) <= MAP_Y_MAX) &&
+      ((mapPinMain.offsetTop - shift.y) >= MAP_Y_MIN)) {
         mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
       }
 
