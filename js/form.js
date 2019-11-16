@@ -104,20 +104,6 @@
     }
   };
 
-  /*
-  var closePopup = function () {
-    if (document.querySelector('main > .success') !== null) {
-      document.querySelector('main > .success').remove();
-    } else if (document.querySelector('main > .error') !== null) {
-      document.querySelector('main > .error').remove();
-    }
-
-    window.page.disabledStatePage();
-    document.removeEventListener('keydown', onPopupEscPress);
-    document.removeEventListener('click', closePopup);
-  };
-  */
-
   var closePopupSuccess = function () {
     if (document.querySelector('main > .success') !== null) {
       document.querySelector('main > .success').remove();

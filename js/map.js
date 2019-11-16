@@ -21,12 +21,12 @@
 
   resetFilterForm();
 
-  var onGetSuccess = function (newData) {
+  var onSuccess = function (newData) {
     window.newData.setData(newData);
     window.newData.updateData();
   };
 
-  var onGetError = function () {
+  var onError = function () {
     var errorTemplate = document.querySelector('#error')
     .content
     .querySelector('.error');
@@ -35,6 +35,22 @@
     fragment.appendChild(errorTemplate.cloneNode(true));
     main.appendChild(fragment);
     document.addEventListener('keydown', onPopupEscPress);
+    document.addEventListener('click', closePopupError);
+  };
+
+  var closePopupError = function () {
+    if (document.querySelector('main > .error') !== null) {
+      document.querySelector('main > .error').remove();
+    }
+
+    document.removeEventListener('keydown', onPopupEscPress);
+    document.removeEventListener('click', closePopupError);
+  };
+
+  var onPopupEscPress = function (evt) {
+    if (document.querySelector('main > .error') !== null) {
+      window.common.isEscEvent(evt, closePopupError);
+    }
   };
 
   filterHousingType.addEventListener('change', function () {
@@ -70,13 +86,13 @@
 
   filterHousingPrice.addEventListener('change', function () {
     window.newData.onHousingPriceTypeChange(filterHousingPrice.value);
-    window.newData.onHousingPriceValueChange(filterHousingPrice.options[this.selectedIndex].text);
+    window.newData.onHousingPriceValueChange(filterHousingPrice.selectedOptions[0].textContent);
     window.debounce(window.newData.updateData);
   });
 
   window.map = {
-    onGetSuccess: onGetSuccess,
-    onGetError: onGetError,
+    onSuccess: onSuccess,
+    onError: onError,
     resetFilterForm: resetFilterForm
   };
 
