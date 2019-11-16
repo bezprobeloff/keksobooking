@@ -35,21 +35,21 @@
     fragment.appendChild(errorTemplate.cloneNode(true));
     main.appendChild(fragment);
     document.addEventListener('keydown', onPopupEscPress);
-    document.addEventListener('click', closePopupError);
+    document.addEventListener('click', onPopupErrorClose);
   };
 
-  var closePopupError = function () {
+  var onPopupErrorClose = function () {
     if (document.querySelector('main > .error') !== null) {
       document.querySelector('main > .error').remove();
     }
 
     document.removeEventListener('keydown', onPopupEscPress);
-    document.removeEventListener('click', closePopupError);
+    document.removeEventListener('click', onPopupErrorClose);
   };
 
   var onPopupEscPress = function (evt) {
     if (document.querySelector('main > .error') !== null) {
-      window.common.isEscEvent(evt, closePopupError);
+      window.common.isEscEvent(evt, onPopupErrorClose);
     }
   };
 
