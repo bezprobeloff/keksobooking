@@ -37,11 +37,11 @@
     adForm.classList.add('ad-form--disabled');
     disabledStateElements(adFormElementsList);
     disabledStateElements(mapFiltersFormElementsList);
-    window.form.resetForm();
+    window.form.reset();
     window.map.resetFilterForm();
     window.card.closePopup();
-    window.pin.clearMapPins();
-    window.pin.resetPositionPinMain();
+    window.pin.clearMap();
+    window.pin.resetPositionMain();
     statePage = false;
   };
 
@@ -49,8 +49,8 @@
   disabledStateElements(adFormElementsList);
 
   window.page = {
-    enabledStatePage: enabledStatePage,
-    disabledStatePage: disabledStatePage,
+    enabledState: enabledStatePage,
+    disabledState: disabledStatePage,
   };
 
 })();

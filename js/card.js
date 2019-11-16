@@ -71,7 +71,7 @@
   };
 
   window.card = {
-    renderCard: renderCard,
+    render: renderCard,
     closePopup: closePopup
   };
 })();
