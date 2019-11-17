@@ -9,6 +9,7 @@
   var MIN_PRICE_PALACE = 10000;
   var MAX_PRICE = 1000000;
   var COUNT_ROOMS_NOT_FOR_GUESTS = 100;
+  var PATH_AVATAR_DEFAULT = document.querySelector('.ad-form-header__preview > img').src;
 
   var main = document.querySelector('main');
   var adForm = document.querySelector('.ad-form');
@@ -25,17 +26,21 @@
   var adFormAvatarPreview = adForm.querySelector('.ad-form-header__preview > img');
   var adFormPhotoInput = adForm.querySelector('.ad-form__upload > input[name="images"]');
   var adFormPhoto = adForm.querySelector('.ad-form__photo');
-  adFormPhoto.innerHTML = '<img src="#" alt="Фото жилья" width="70" height="70" class="visually-hidden"></img>';
-  var adFormPhotoPreview = adFormPhoto.querySelector('img');
-
-  window.loadPhoto(adFormAvatarInput, adFormAvatarPreview);
-  window.loadPhoto(adFormPhotoInput, adFormPhotoPreview);
 
   adFormTitleInput.required = true;
   adFormPriceInput.required = true;
   adFormTitleInput.minLength = MIN_SYMBOL_INPUT_TITLE;
   adFormTitleInput.maxLength = MAX_SYMBOL_INPUT_TITLE;
   adFormAdressInput.setAttribute('readonly', 'readonly');
+
+  var initPhotoPath = function () {
+    adFormAvatarPreview.src = PATH_AVATAR_DEFAULT;
+    adFormPhoto.innerHTML = '<img src="#" alt="Фото жилья" width="70" height="70" class="visually-hidden"></img>';
+    window.loadPhoto(adFormAvatarInput, adFormAvatarPreview);
+    window.loadPhoto(adFormPhotoInput, adFormPhoto.querySelector('img'));
+  };
+
+  initPhotoPath();
 
   var syncTypeHouseFromPrice = function () {
     switch (adFormSelectTypeHouse.value) {
@@ -107,6 +112,7 @@
 
   var resetForm = function () {
     adForm.reset();
+    initPhotoPath();
     syncTypeHouseFromPrice();
   };
   var onSuccess = function () {

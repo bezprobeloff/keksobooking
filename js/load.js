@@ -8,6 +8,7 @@
   var CACHED_CODE = 302;
   var ERROR_NOT_FOUND_CODE = 404;
   var SERVER_ERROR_CODE = 500;
+  var data;
 
   var sendRequest = function (requestType, url, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
@@ -41,14 +42,20 @@
     xhr.timeout = TIMEOUT;
 
     xhr.open(requestType, url);
-    xhr.send();
+    if (url === URL_GET) {
+      xhr.send();
+    } else {
+      xhr.send(data);
+    }
+
   };
 
   window.load = function (onSuccess, onError) {
     sendRequest('GET', URL_GET, onSuccess, onError);
   };
 
-  window.upload1 = function (onSuccess, onError) {
+  window.upload = function (newData, onSuccess, onError) {
+    data = newData;
     sendRequest('POST', URL_POST, onSuccess, onError);
   };
 })();
