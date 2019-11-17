@@ -10,15 +10,15 @@
   var statePage = false;
 
   var disabledStateElements = function (arr) {
-    arr.forEach(function (item) {
-      item.setAttribute('disabled', 'disabled');
-    });
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].setAttribute('disabled', 'disabled');
+    }
   };
 
   var enabledStateElements = function (arr) {
-    arr.forEach(function (item) {
-      item.removeAttribute('disabled');
-    });
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].removeAttribute('disabled');
+    }
   };
 
   var enabledStatePage = function () {

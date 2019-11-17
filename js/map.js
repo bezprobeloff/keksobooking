@@ -65,13 +65,11 @@
 
   var updateSelectFilterFeaturesList = function () {
     var housingFeaturesList = [];
-
-    [].map.call(filterHousingFeaturesList, function (item) {
-      if (item.checked) {
-        housingFeaturesList.push(item.value);
+    for (var i = 0; i < filterHousingFeaturesList.length; i++) {
+      if (filterHousingFeaturesList[i].checked) {
+        housingFeaturesList.push(filterHousingFeaturesList[i].value);
       }
-    });
-
+    }
     window.newData.onHousingFeaturesChange(housingFeaturesList);
     window.debounce(window.newData.updateData);
   };
@@ -82,9 +80,9 @@
     });
   };
 
-  [].map.call(filterHousingFeaturesList, function (item) {
-    createFeaturesCheckedHandler(item);
-  });
+  for (var i = 0; i < filterHousingFeaturesList.length; i++) {
+    createFeaturesCheckedHandler(filterHousingFeaturesList[i]);
+  }
 
   filterHousingPrice.addEventListener('change', function () {
     window.newData.onHousingPriceTypeChange(filterHousingPrice.value);

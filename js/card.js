@@ -32,12 +32,12 @@
       cardElement.querySelector('.popup__features').remove();
     } else {
       var cardFeatures = cardElement.querySelectorAll('.popup__feature');
-      [].map.call(cardFeatures, function (item) {
-        if (!data.offer.features.includes(item.
+      for (var i = 0; i < cardFeatures.length; i++) {
+        if (!data.offer.features.includes(cardFeatures[i].
           classList.value.replace(/.*popup__feature--/gi, ''))) {
-          item.remove();
+          cardFeatures[i].remove();
         }
-      });
+      }
     }
 
     cardElement.querySelector('.popup__description').textContent = data.offer.description;
