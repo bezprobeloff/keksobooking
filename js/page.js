@@ -10,15 +10,15 @@
   var statePage = false;
 
   var disabledStateElements = function (arr) {
-    for (var i = 0; i < arr.length; i++) {
-      arr[i].setAttribute('disabled', 'disabled');
-    }
+    arr.forEach(function (item) {
+      item.setAttribute('disabled', 'disabled');
+    });
   };
 
   var enabledStateElements = function (arr) {
-    for (var i = 0; i < arr.length; i++) {
-      arr[i].removeAttribute('disabled');
-    }
+    arr.forEach(function (item) {
+      item.removeAttribute('disabled');
+    });
   };
 
   var enabledStatePage = function () {
@@ -37,11 +37,11 @@
     adForm.classList.add('ad-form--disabled');
     disabledStateElements(adFormElementsList);
     disabledStateElements(mapFiltersFormElementsList);
-    window.form.resetForm();
+    window.form.reset();
     window.map.resetFilterForm();
     window.card.closePopup();
-    window.pin.clearMapPins();
-    window.pin.resetPositionPinMain();
+    window.pin.clearMap();
+    window.pin.resetPositionMain();
     statePage = false;
   };
 
@@ -49,8 +49,8 @@
   disabledStateElements(adFormElementsList);
 
   window.page = {
-    enabledStatePage: enabledStatePage,
-    disabledStatePage: disabledStatePage,
+    enabledState: enabledStatePage,
+    disabledState: disabledStatePage,
   };
 
 })();

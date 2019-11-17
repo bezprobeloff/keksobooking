@@ -14,7 +14,6 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      console.log(xhr.status);
       switch (xhr.status) {
         case SUCCESS_CODE:
           onSuccess(xhr.response);
@@ -49,7 +48,7 @@
     sendRequest('GET', URL_GET, onSuccess, onError);
   };
 
-  window.upload = function (onSuccess, onError) {
+  window.upload1 = function (onSuccess, onError) {
     sendRequest('POST', URL_POST, onSuccess, onError);
   };
 })();

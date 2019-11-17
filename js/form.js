@@ -21,15 +21,15 @@
   var adFormPriceInput = adForm.querySelector('input[name="price"]');
   var adFormAdressInput = adForm.querySelector('input[name="address"]');
   var adFormResetButton = adForm.querySelector('.ad-form__reset');
-  //var adFormAvatarInput = adForm.querySelector('.ad-form__field > input[name="avatar"]');
-  //var adFormAvatarPreview = adForm.querySelector('.ad-form-header__preview > img');
-  //var adFormPhotoInput = adForm.querySelector('.ad-form__upload > input[name="images"]');
-  //var adFormPhoto = adForm.querySelector('.ad-form__photo');
-  //adFormPhoto.innerHTML = '<img src="#" alt="Фото жилья" width="70" height="70" class="visually-hidden"></img>';
-  //var adFormPhotoPreview = adFormPhoto.querySelector('img');
+  var adFormAvatarInput = adForm.querySelector('.ad-form__field > input[name="avatar"]');
+  var adFormAvatarPreview = adForm.querySelector('.ad-form-header__preview > img');
+  var adFormPhotoInput = adForm.querySelector('.ad-form__upload > input[name="images"]');
+  var adFormPhoto = adForm.querySelector('.ad-form__photo');
+  adFormPhoto.innerHTML = '<img src="#" alt="Фото жилья" width="70" height="70" class="visually-hidden"></img>';
+  var adFormPhotoPreview = adFormPhoto.querySelector('img');
 
-  //window.loadPhoto(adFormAvatarInput, adFormAvatarPreview);
-  //window.loadPhoto(adFormPhotoInput, adFormPhotoPreview);
+  window.loadPhoto(adFormAvatarInput, adFormAvatarPreview);
+  window.loadPhoto(adFormPhotoInput, adFormPhotoPreview);
 
   adFormTitleInput.required = true;
   adFormPriceInput.required = true;
@@ -80,7 +80,7 @@
   });
 
   adFormResetButton.addEventListener('click', function () {
-    window.page.disabledStatePage();
+    window.page.disabledState();
   });
 
   var checkValidityRoomsFromCapacity = function (countRooms, countCapacity) {
@@ -134,7 +134,7 @@
       document.querySelector('main > .success').remove();
     }
 
-    window.page.disabledStatePage();
+    window.page.disabledState();
     document.removeEventListener('keydown', onPopupEscPress);
     document.removeEventListener('click', onPopupSuccessClose);
   };
@@ -162,13 +162,12 @@
   };
 
   adForm.addEventListener('submit', function (evt) {
-    console.log(new FormData(adForm));
     window.upload(new FormData(adForm), onSuccess, onError);
     evt.preventDefault();
   });
 
   window.form = {
-    resetForm: resetForm
+    reset: resetForm
   };
 
 })();
