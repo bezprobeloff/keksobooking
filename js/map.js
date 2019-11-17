@@ -22,8 +22,8 @@
   resetFilterForm();
 
   var onSuccess = function (newData) {
-    window.newData.set(newData);
-    window.newData.update();
+    window.newData.setData(newData);
+    window.newData.updateData();
   };
 
   var onError = function () {
@@ -55,12 +55,12 @@
 
   filterHousingType.addEventListener('change', function () {
     window.newData.onHousingTypeChange(filterHousingType.value);
-    window.debounce(window.newData.update);
+    window.debounce(window.newData.updateData);
   });
 
   filterHousingRooms.addEventListener('change', function () {
     window.newData.onHousingRoomsChange(filterHousingRooms.value);
-    window.debounce(window.newData.update);
+    window.debounce(window.newData.updateData);
   });
 
   var updateSelectFilterFeaturesList = function () {
@@ -73,7 +73,7 @@
     });
 
     window.newData.onHousingFeaturesChange(housingFeaturesList);
-    window.debounce(window.newData.update);
+    window.debounce(window.newData.updateData);
   };
 
   var createFeaturesCheckedHandler = function (featureElement) {
@@ -89,7 +89,7 @@
   filterHousingPrice.addEventListener('change', function () {
     window.newData.onHousingPriceTypeChange(filterHousingPrice.value);
     window.newData.onHousingPriceValueChange(filterHousingPrice.selectedOptions[0].textContent);
-    window.debounce(window.newData.update);
+    window.debounce(window.newData.updateData);
   });
 
   window.map = {

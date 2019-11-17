@@ -40,7 +40,7 @@
         document.querySelector('.map .map__pin--active').classList.remove('map__pin--active');
       }
       pinElement.classList.add('map__pin--active');
-      window.card.render(data);
+      window.card.renderCard(data);
     });
 
     return pinElement;
@@ -63,7 +63,7 @@
   };
 
   mapPinMain.addEventListener('mousedown', function (evt) {
-    window.page.enabledState();
+    window.page.enabledStatePage();
     evt.preventDefault();
     var startCoords = {
       x: evt.clientX,
@@ -111,14 +111,18 @@
 
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.common.ENTER_KEYCODE) {
-      window.page.enabledState();
+      window.page.enabledStatePage();
     }
   });
 
+
   window.pin = {
+    MAP_PIN_MAIN_HEIGHT: MAP_PIN_MAIN_HEIGHT,
+    MAP_PIN_MAIN_WIDTH: MAP_PIN_MAIN_WIDTH,
     mapPins: mapPins,
-    render: renderPin,
-    clearMap: clearMapPins,
-    resetPositionMain: resetPositionPinMain
+    mapPinMain: mapPinMain,
+    renderPin: renderPin,
+    clearMapPins: clearMapPins,
+    resetPositionPinMain: resetPositionPinMain
   };
 })();

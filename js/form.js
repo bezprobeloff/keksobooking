@@ -80,7 +80,7 @@
   });
 
   adFormResetButton.addEventListener('click', function () {
-    window.page.disabledState();
+    window.page.disabledStatePage();
   });
 
   var checkValidityRoomsFromCapacity = function (countRooms, countCapacity) {
@@ -134,7 +134,7 @@
       document.querySelector('main > .success').remove();
     }
 
-    window.page.disabledState();
+    window.page.disabledStatePage();
     document.removeEventListener('keydown', onPopupEscPress);
     document.removeEventListener('click', onPopupSuccessClose);
   };
@@ -168,7 +168,7 @@
   });
 
   window.form = {
-    reset: resetForm
+    resetForm: resetForm
   };
 
 })();

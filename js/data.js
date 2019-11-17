@@ -39,7 +39,7 @@
 
   var updateData = function () {
     window.card.closePopup();
-    window.pin.clearMap();
+    window.pin.clearMapPins();
     var fragment = document.createDocumentFragment();
     var filterData = data.
     filter(function (itemData) {
@@ -97,20 +97,20 @@
     });
 
     filterData.forEach(function (item) {
-      fragment.appendChild(window.pin.render(item));
+      fragment.appendChild(window.pin.renderPin(item));
     });
     window.pin.mapPins.appendChild(fragment);
   };
 
   window.newData = {
-    set: setData,
+    setData: setData,
     onHousingTypeChange: onHousingTypeChange,
     onHousingRoomsChange: onHousingRoomsChange,
     onHousingGuestsChange: onHousingGuestsChange,
     onHousingPriceTypeChange: onHousingPriceTypeChange,
     onHousingPriceValueChange: onHousingPriceValueChange,
     onHousingFeaturesChange: onHousingFeaturesChange,
-    update: updateData
+    updateData: updateData
   };
 
 })();
