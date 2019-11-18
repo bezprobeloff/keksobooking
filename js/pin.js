@@ -48,9 +48,9 @@
 
   var clearMapPins = function () {
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < pins.length; i++) {
-      pins[i].remove();
-    }
+    [].map.call(pins, function (item) {
+      item.remove();
+    });
   };
 
   var convertPxToNumber = function (str) {

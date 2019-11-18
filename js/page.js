@@ -26,7 +26,7 @@
     adForm.classList.remove('ad-form--disabled');
     enabledStateElements(adFormElementsList);
     if (!statePage) {
-      window.load(window.map.onSuccess, window.map.onError);
+      window.load.get(window.map.onSuccess, window.map.onError);
     }
     enabledStateElements(mapFiltersFormElementsList);
     statePage = true;

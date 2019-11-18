@@ -50,12 +50,14 @@
 
   };
 
-  window.load = function (onSuccess, onError) {
-    sendRequest('GET', URL_GET, onSuccess, onError);
+  window.load = {
+    get: function (onSuccess, onError) {
+      sendRequest('GET', URL_GET, onSuccess, onError);
+    },
+    set: function (newData, onSuccess, onError) {
+      data = newData;
+      sendRequest('POST', URL_POST, onSuccess, onError);
+    }
   };
 
-  window.upload = function (newData, onSuccess, onError) {
-    data = newData;
-    sendRequest('POST', URL_POST, onSuccess, onError);
-  };
 })();
